@@ -55,4 +55,9 @@ See `science.py` for a minimum example.
 * Accuracy (|): 14.00 (14 / 100)
 
 ### Few-Shot (n=3, ops=['+', '*', '^'])
-(running tests still...)
+* Accuracy (+): 83.00 (83 / 100)
+* Accuracy (*): 66.00 (66 / 100)
+* Accuracy (-): 15.00 (15 / 100)
+* Accuracy (^): 64.00 (64 / 100)
+* Accuracy (&): 1.00 (1 / 100)
+* Accuracy (|): 34.00 (34 / 100)
