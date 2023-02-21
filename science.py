@@ -7,11 +7,12 @@ import datetime
 from transformers import pipeline
 
 prompt_fragments = [
-	"<Guest> What is 123 + 456?\n<AI> 123 + 456 is [MATH(123 + 456) -> 579] 579.\n"
-	"<Guest> What is 123 * 456?\n<AI> 123 * 456 is [MATH(123 * 456) -> 56088] 56088.\n"
-	"<Guest> What is 123 ^ 456?\n<AI> 123 ^ 456 is [MATH(123 ^ 456) -> 435] 435.\n"
+	"<Guest> What is 123 + 456?\n<AI> 123 + 456 is [MATH(123 + 456) -> 579] 579.\n",
+	"<Guest> What is 123 * 456?\n<AI> 123 * 456 is [MATH(123 * 456) -> 56088] 56088.\n",
+	"<Guest> What is 123 ^ 456?\n<AI> 123 ^ 456 is [MATH(123 ^ 456) -> 435] 435.\n",
+	"<Guest> What is 123 & 456?\n<AI> 123 & 456 is [MATH(123 & 456) -> 72] 72.\n",
 	"<Guest> What are you?\n<AI> I am a chatbot.\n",
-	"<Guest> How many people are on earth?\n<AI> The Earth has [SEARCH(earth population) -> 7.888 billion (2021)] 7.888 billion inhabitants as of 2021.\n"
+	"<Guest> How many people are on earth?\n<AI> The Earth has [SEARCH(earth population) -> 7.888 billion (2021)] 7.888 billion inhabitants as of 2021.\n",
 	"<Guest> What day is it?\n<AI> Today's date is [DATE() -> Feb 20th, 2023] February 20th, 2023.\n",
 ]
 
@@ -51,7 +52,8 @@ def parse_plugin(text):
 hits = {}
 miss = {}
 result = {}
-for i in range(1000):
+meta_results = {}
+for i in range(100):
 	print("\nTrial %d:" % i)
 	for op in ["+", "*", "-", "^", "&", "|"]:
 		a = random.randint(0, 100)
