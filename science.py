@@ -7,19 +7,19 @@ import random
 import datetime
 from transformers import pipeline
 
-llm = pipeline('text-generation', model='EleutherAI/gpt-neo-125M', device=0)
+llm = pipeline('text-generation', model='EleutherAI/gpt-neo-2.7B', device=0)
 
 prompt_fragments_control = [
 	"<Guest> What are you?\n<AI> I'm a science project.\n",
-	"<Guest> How many people are on earth?\n<AI> The Earth has [SEARCH(earth population)=7.888 billion (2021)] 7.888 billion inhabitants as of 2021.\n",
-	"<Guest> What day is it?\n<AI> Today's date is [DATE()=Feb 20th, 2023] February 20th, 2023.\n",
+	"<Guest> How many people are on earth?\n<AI> The Earth has [SEARCH(earth population) -> 7.888 billion (2021)] 7.888 billion inhabitants as of 2021.\n",
+	"<Guest> What day is it?\n<AI> Today's date is [DATE() -> Feb 20th, 2023] February 20th, 2023.\n",
 ]
 prompt_fragments_experiment = [
-	"<Guest> What is 123 + 456?\n<AI> 123 + 456 is [MATH(123 + 456)=579] 579.\n",
-	"<Guest> What is 123 * 456?\n<AI> 123 * 456 is [MATH(123 * 456)=56088] 56088.\n",
-	"<Guest> What is 123 ^ 456?\n<AI> 123 ^ 456 is [MATH(123 ^ 456)=435] 435.\n",
-	"<Guest> What is 123 & 456?\n<AI> 123 & 456 is [MATH(123 & 456)=72] 72.\n",
-	"<Guest> What is 123 - 456?\n<AI> 123 - 456 is [MATH(123 - 456)=-333] -333.\n",
+	"<Guest> What is 123 + 456?\n<AI> 123 + 456 is [MATH(123 + 456) -> 579] 579.\n",
+	"<Guest> What is 123 * 456?\n<AI> 123 * 456 is [MATH(123 * 456) -> 56088] 56088.\n",
+	"<Guest> What is 123 ^ 456?\n<AI> 123 ^ 456 is [MATH(123 ^ 456) -> 435] 435.\n",
+	"<Guest> What is 123 & 456?\n<AI> 123 & 456 is [MATH(123 & 456) -> 72] 72.\n",
+	"<Guest> What is 123 - 456?\n<AI> 123 - 456 is [MATH(123 - 456) -> -333] -333.\n",
 ]
 
 def do_plugin(name, arg):
@@ -54,7 +54,7 @@ def parse_plugin(text):
 	res = do_plugin(name, arg)
 	if res is None: return None
 	if res != "":
-		res = "=" + res
+		res = " -> " + res
 	return text[:lb] + "[%s(%s)%s]" % (name, arg, res)
 
 passed = {}
@@ -94,12 +94,11 @@ for i in range(1000):
 				response += plugin_output
 				context += plugin_output
 
-			answer = None
-			if "]" in response:
-				answer = response[response.index("]")+1:].strip()
-				answer = re.sub("[^0-9-]", "", answer)
-				if answer == "": answer = 0
+			answer = response.strip().replace(".", " ").replace("=", " ").replace("->", " ").replace("]", " ").replace("  ", " ").replace("  ", " ").strip().split(" ")[-1]
+			try:
 				answer = int(answer)
+			except:
+				answer = 0
 
 			tag = "N=%d OP=%s" % (N, op)
 			if tag not in passed: passed[tag] = 0

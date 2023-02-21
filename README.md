@@ -37,9 +37,8 @@ To use plugins you:
 
 See `science.py` for a minimum example.
 
-## Few-shot results with GPT-Neo 125M:
-With `[MATH(expression) -> result]` syntax, 125 trials:
-| Operator | N=0 (control) | N=1 | N=2 | N=3 | N=4 | N=5 |
+## Few-shot accuracy with untrained models:
+| GPT-Neo 125M | N=0 (control) | N=1 | N=2 | N=3 | N=4 | N=5 |
 | - | - | - | - | - | - | - |
 | + | 0.00% | 92.1% | 97.6% | 93.7% | 94.4% | 95.2% |
 | * | 0.00% | 2.4% | 93.7% | 92.9% | 93.7% | 92.9% |
@@ -48,12 +47,20 @@ With `[MATH(expression) -> result]` syntax, 125 trials:
 | & | 0.00% | 0.0% | 3.2% | 11.1% | 73.0% | 65.1% |
 | \| (held out) | 0.0% | 15.1% | 48.4% | 77.8% | 92.1% | 90.5% |
 
-With `[MATH(expression)=result]` syntax, 125 trials:
-| Operator | N=0 (control) | N=1 | N=2 | N=3 | N=4 | N=5 |
+| GPT-Neo 1.3B | N=0 (control) | N=1 | N=2 | N=3 | N=4 | N=5 |
 | - | - | - | - | - | - | - |
-| + | 0.0% | 86.4% | 98.4% | 96.0% | 97.6% | 94.4% |
-| * | 0.0% | 9.6% | 93.6% | 85.6% | 87.2% | 90.4% |
-| - | 0.0% | 20.0% | 27.2% | 41.6% | 47.2% | 53.6% |
-| ^ | 0.0% | 15.2% | 33.6% | 93.6% | 93.6% | 89.6% |
-| & | 0.0% | 0.0% | 1.6% | 9.6% | 62.4% | 54.4% |
-| \| (held out) | 0.0% | 12.8% | 26.4% | 78.4% | 90.4% | 83.2% |
+| + | 0.0% | 51.5% | 60.6% | 78.8% | 72.7% | 78.8% |
+| * | 0.0% | 42.4% | 72.7% | 69.7% | 63.6% | 72.7% |
+| - | 3.0% | 21.2% | 42.4% | 30.3% | 45.5% | 75.8% |
+| ^ | 0.0% | 15.2% | 45.5% | 75.8% | 69.7% | 81.8% |
+| & | 12.1% | 9.1% | 33.3% | 66.7% | 63.6% | 90.9% |
+| \| (held out) | 0.0% | 15.2% | 39.4% | 54.5% | 45.5% | 54.5% |
+
+GPT-Neo 1.3B may be "too smart for its own good" here. Some exemplary failures:
+> FAIL: 'What is 61 ^ 65?' => ' It's a number greater than 0.'
+> 
+> FAIL: 'What is 95 - 19?' => ' It is a mathematical formula.'
+> 
+> FAIL: 'What is 46 ^ 69?' => ' I'm guessing it's an integer, but I'm not sure.'
+> 
+> FAIL: 'What is 76 ^ 2?' => ' I think I'm a robot.'
