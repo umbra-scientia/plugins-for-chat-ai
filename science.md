@@ -39,3 +39,23 @@ With `[MATH(expression)=result]` syntax, 33 trials:
 | & | 21.2% | 9.1% | 30.3% | 45.5% | 84.8% | 84.8% |
 | - | 6.1% | 12.1% | 39.4% | 39.4% | 42.4% | 60.6% |
 | \| | 0.0% | 24.2% | 45.5% | 48.5% | 60.6% | 75.8% |
+
+GPT-Neo 1.3B may be "too smart for its own good" here. Some exemplary failures:
+> FAIL: 'What is 61 ^ 65?' => ' It's a number greater than 0.'
+> 
+> FAIL: 'What is 95 - 19?' => ' It is a mathematical formula.'
+> 
+> FAIL: 'What is 46 ^ 69?' => ' I'm guessing it's an integer, but I'm not sure.'
+> 
+> FAIL: 'What is 76 ^ 2?' => ' I think I'm a robot.'
+
+## Few-shot accuracy with untrained GPT-Neo 2.7B:
+With `[MATH(expression) -> result]` syntax, 64 trials:
+| Operator | N=0 (control) | N=1 | N=2 | N=3 | N=4 | N=5 |
+| - | - | - | - | - | - | - |
+| + | 3.1% | 59.4% | 79.7% | 79.7% | 76.6% | 87.5% |
+| * | 4.7% | 32.8% | 85.9% | 85.9% | 87.5% | 87.5% |
+| ^ | 1.6% | 31.2% | 65.6% | 81.2% | 92.2% | 85.9% |
+| & | 12.5% | 25.0% | 46.9% | 57.8% | 84.4% | 81.2% |
+| - | 0.0% | 50.0% | 60.9% | 65.6% | 76.6% | 81.2% |
+| \| | 1.6% | 25.0% | 54.7% | 73.4% | 71.9% | 70.3% |
